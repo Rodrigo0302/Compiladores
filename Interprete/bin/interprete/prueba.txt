@@ -1,0 +1,19 @@
+//fsfsdfsdfsdfsfsdfsd fsdfsdf
+variable
+variable2
+/* comentario de
+varias lineas
+exxx*/
+variable3
+/
+"Hola mundo"
+a and b
+
+
+
+
+        >><<
+
+and, else, false, fun, for, if, null, or,
+    print, return, true, var, while,
++-*;,.{}[]
