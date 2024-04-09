@@ -38,7 +38,8 @@ public class Scanner {
         
         for (int i = 0; i < source.length(); i++) {
             char c = source.charAt(i);
-            
+            System.out.println("Estado: " + estado);
+            System.out.printf("c = %c\n",c);
             
             
             switch (estado) {
@@ -55,7 +56,7 @@ public class Scanner {
                         lexema += c;
                     }else if(c == '!'){
                         estado = 10;
-                                lexema += c;
+                        lexema += c;
                     }else if(Character.isLetter(c)){
                         estado =13;
                         lexema += c;
@@ -90,11 +91,21 @@ public class Scanner {
                         Token t = new Token(TipoToken.DOT, ".");
                         tokens.add(t);
                     }else if (c == '{') {
-                        Token t = new Token(TipoToken.LEFT_PAREN, "{");
+                        Token t = new Token(TipoToken.LEFT_BRACE, "{");
                         tokens.add(t);
                     }else if (c == '}'){
-                        Token t = new Token(TipoToken.RIGHT_PAREN, "}");
+                        Token t = new Token(TipoToken.RIGHT_BRACE, "}");
                         tokens.add(t);
+                    }else if (c == '(') {
+                        Token t = new Token(TipoToken.LEFT_PAREN, "(");
+                        tokens.add(t);
+                    }else if (c == ')') {
+                        Token t = new Token(TipoToken.RIGHT_PAREN, ")");
+                        tokens.add(t);
+                        
+                    }else{
+                        String mensaje = "Caracter no valido: " + c;
+                        throw new RuntimeException(mensaje);
                     }
                     break;
                     //Operaciones relacionales y otros 1 - 10
@@ -154,7 +165,6 @@ public class Scanner {
                         lexema += c;
                         Token t = new Token(TipoToken.BANG_EQUAL, lexema);
                         tokens.add(t);
-                        
                         estado = 0;
                         lexema = "";
                     }
@@ -165,6 +175,7 @@ public class Scanner {
                         lexema = "";
                         i--;
                     }
+                    break;
                     //Identificadores y palabras reservadas
                 case 13:
                     if(Character.isLetterOrDigit(c)){
@@ -210,6 +221,9 @@ public class Scanner {
                     if (Character.isDigit(c)){
                         estado = 17;
                         lexema += c;
+                    }else{
+                        String mensaje = "Numero mal formado";
+                        throw new RuntimeException(mensaje);
                     }
                     break;
                 case 17:
@@ -316,7 +330,7 @@ public class Scanner {
                     
                 default:
                     System.out.println("Error Lexico");
-                    //throw new AssertionError();
+                    throw new AssertionError();
                     
             }
         }

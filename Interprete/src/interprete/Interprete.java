@@ -17,10 +17,11 @@ public class Interprete {
             // Convención defininida en el archivo "system.h" de UNIX
             System.exit(64);
         } else if(args.length == 1){
-            ejecutarArchivo(args[0]);
+            String texto = "src\\interprete\\pruebas\\"+args[0];
+            ejecutarArchivo(texto);
         } else{
             //ejecutarPrompt();
-            ejecutarArchivo("src//interprete//prueba.txt");
+            ejecutarArchivo("Interprete\\src\\interprete\\pruebas\\Identificadores.txt");
         }
     }
 
