@@ -334,6 +334,7 @@ public class Scanner {
                     
             }
         }
+        tokens.add(new Token(TipoToken.EOF, ""));
         return tokens;
     }
 }
