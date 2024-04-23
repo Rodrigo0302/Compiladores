@@ -30,7 +30,7 @@ public class Scanner {
         this.source = source + " ";
     }
 
-    public List<Token> scan(){
+    public List<Token> scan() throws Exception{
         List<Token> tokens = new ArrayList<>();
         int estado = 0;
         String lexema = "";
@@ -333,6 +333,10 @@ public class Scanner {
                     throw new AssertionError();
                     
             }
+        }
+
+        if (estado == 24) {
+            throw new Exception("La cadena no se cerro");
         }
         tokens.add(new Token(TipoToken.EOF, ""));
         return tokens;
