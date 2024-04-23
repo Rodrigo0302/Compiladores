@@ -248,12 +248,19 @@ public class Scanner {
                     }else if(Character.isDigit(c)){
                         estado = 20;
                         lexema += c;
+                    }else{
+                        String mensaje = "Numero mal formado";
+                        throw new RuntimeException(mensaje);
                     }
+
                     break;
                 case 19:
                     if(Character.isDigit(c)){
                         estado = 20;
                         lexema += c;
+                    }else{
+                        String mensaje = "Numero mal formado";
+                        throw new RuntimeException(mensaje);
                     }
                     break;
                 case 20:
