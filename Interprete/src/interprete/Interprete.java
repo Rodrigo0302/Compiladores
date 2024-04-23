@@ -48,13 +48,22 @@ public class Interprete {
 
     private static void ejecutar(String source) {
         Scanner scanner = new Scanner(source);
-        List<Token> tokens = scanner.scan();
-        
-        for (Token token : tokens) {
-            System.out.println(token);
+
+        try {
+            List<Token> tokens = scanner.scan();
+            for (Token token : tokens) {
+                System.out.println(token);
+            }
+            System.out.println(source);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+
         
-        System.out.println(source);
+        
+        
+        
+        
     }
 
 }
