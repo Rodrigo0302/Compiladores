@@ -38,8 +38,8 @@ public class Scanner {
         
         for (int i = 0; i < source.length(); i++) {
             char c = source.charAt(i);
-            System.out.println("Estado: " + estado);
-            System.out.printf("c = %c\n",c);
+            //System.out.println("Estado: " + estado);
+            //System.out.printf("c = %c\n",c);
             
             
             switch (estado) {
