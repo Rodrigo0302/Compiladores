@@ -17,11 +17,11 @@ public class Interprete {
             // Convención defininida en el archivo "system.h" de UNIX
             System.exit(64);
         } else if(args.length == 1){
-            String texto = "src\\interprete\\pruebas\\"+args[0];
+            String texto = "Interprete\\src\\interprete\\pruebas\\"+args[0];
             ejecutarArchivo(texto);
         } else{
-            //ejecutarPrompt();
-            ejecutarArchivo("Interprete\\src\\interprete\\pruebas\\Identificadores.txt");
+            ejecutarPrompt();
+            //ejecutarArchivo("Interprete\\src\\interprete\\pruebas\\Identificadores.txt");
         }
     }
 
@@ -54,6 +54,8 @@ public class Interprete {
             for (Token token : tokens) {
                 System.out.println(token);
             }
+            Parser parser = new Parser(tokens);
+            parser.parse();
             System.out.println(source);
         } catch (Exception e) {
             System.out.println(e.getMessage());
