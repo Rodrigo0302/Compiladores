@@ -519,8 +519,6 @@ public class Parser {
         }
     }
 
-    
-
     private void match(TipoToken tt) throws ParserException{
         if (preanalisis.getTipo() == tt) {
             i++;
@@ -532,6 +530,7 @@ public class Parser {
         }
     }
 
+    @SuppressWarnings("unused")
     private Token previus() {return this.tokens.get(i-1);}
     
 }
