@@ -12,7 +12,7 @@ public class Parser {
         this.preanalisis = tokens.get(i);
     }
 
-    public void parse() throws Exception{
+    public void parse() throws ParserException{
         program();
 
         if (preanalisis.getTipo() != TipoToken.EOF) {
@@ -22,11 +22,11 @@ public class Parser {
     }
     //-----------------GRAMATICA DEL PROYECTO FINAL-----------------
 
-    private void program() throws Exception{
+    private void program() throws ParserException{
         declaration();
     }
     //-----------------DECLARACIONES-----------------
-    private void declaration() throws Exception{
+    private void declaration() throws ParserException{
         switch (preanalisis.getTipo()) {
             case FUN:
                 funDecl();
@@ -59,26 +59,26 @@ public class Parser {
         }
     }
 
-    private void funDecl() throws Exception{
+    private void funDecl() throws ParserException{
         match(TipoToken.FUN);
         function();
     }
 
-    private void varDecl() throws Exception{
+    private void varDecl() throws ParserException{
         match(TipoToken.VAR);
         match(TipoToken.IDENTIFIER);
         varInit();
         match(TipoToken.SEMICOLON);
     }
 
-    private void varInit() throws Exception{
+    private void varInit() throws ParserException{
         if (preanalisis.getTipo() == TipoToken.EQUAL) {
             match(TipoToken.EQUAL);
             expression();
         }
     }
     //-----------------SENTECIAS-----------------
-    private void statement() throws Exception{
+    private void statement() throws ParserException{
         switch (preanalisis.getTipo()) {
             case BANG:
             case MINUS:
@@ -115,12 +115,12 @@ public class Parser {
         }
     }
 
-    private void exprStmt() throws Exception{
+    private void exprStmt() throws ParserException{
         expression();
         match(TipoToken.SEMICOLON);
     }
 
-    private void forStmt() throws Exception{
+    private void forStmt() throws ParserException{
         match(TipoToken.FOR);
         match(TipoToken.LEFT_PAREN);
         forStmt_1();
@@ -130,7 +130,7 @@ public class Parser {
         statement();
     }
 
-    private void forStmt_1() throws Exception{
+    private void forStmt_1() throws ParserException{
         switch (preanalisis.getTipo()) {
             case VAR:
                 varDecl();
@@ -155,7 +155,7 @@ public class Parser {
         }
     }
 
-    private void forStmt_2() throws Exception{
+    private void forStmt_2() throws ParserException{
         switch (preanalisis.getTipo()) {
             case BANG:
             case MINUS:
@@ -174,11 +174,12 @@ public class Parser {
                 break;
         
             default:
-                break;
+                String mensaje = "Error, se esperaba una expresion o ; en el segundo argumento del for pero se encontro " + preanalisis.getTipo();
+                throw new ParserException(mensaje);
         }
     }
 
-    private void forStmt_3() throws Exception{
+    private void forStmt_3() throws ParserException{
         switch (preanalisis.getTipo()) {
             case BANG:
             case MINUS:
@@ -196,7 +197,7 @@ public class Parser {
         }
     }
 
-    private void ifStmt() throws Exception{
+    private void ifStmt() throws ParserException{
         match(TipoToken.IF);
         match(TipoToken.LEFT_PAREN);
         expression();
@@ -205,7 +206,7 @@ public class Parser {
         elseStmt();
     }
 
-    private void elseStmt() throws Exception{
+    private void elseStmt() throws ParserException{
         if (preanalisis.getTipo() == TipoToken.ELSE) {
             match(TipoToken.ELSE);
             statement();
@@ -213,19 +214,19 @@ public class Parser {
         }
     }
 
-    private void printStmt() throws Exception{
+    private void printStmt() throws ParserException{
         match(TipoToken.PRINT);
         expression();
         match(TipoToken.SEMICOLON);
     }
 
-    private void returnStmt() throws Exception{
+    private void returnStmt() throws ParserException{
         match(TipoToken.RETURN);
         returnExpOpc();
         match(TipoToken.SEMICOLON);
     }
 
-    private void returnExpOpc() throws Exception{
+    private void returnExpOpc() throws ParserException{
         switch (preanalisis.getTipo()) {
             case BANG:
             case MINUS:
@@ -244,7 +245,7 @@ public class Parser {
         }
     }
 
-    private void whileStmt() throws Exception{
+    private void whileStmt() throws ParserException{
         match(TipoToken.WHILE);
         match(TipoToken.LEFT_PAREN);
         expression();
@@ -252,35 +253,35 @@ public class Parser {
         statement();
     }
 
-    private void block() throws Exception{
+    private void block() throws ParserException{
         match(TipoToken.LEFT_BRACE);
         declaration();
         match(TipoToken.RIGHT_BRACE);
     }
 
     //-----------------EXPRESIONES-----------------
-    private void expression() throws Exception{
+    private void expression() throws ParserException{
         assignment();
     }
 
-    private void assignment() throws Exception{
+    private void assignment() throws ParserException{
         logicOr();
         assignmentOpc();
     }
 
-    private void assignmentOpc() throws Exception{
+    private void assignmentOpc() throws ParserException{
         if (preanalisis.getTipo() == TipoToken.EQUAL) {
             match(TipoToken.EQUAL);
             expression();
         }
     }
 
-    private void logicOr() throws Exception{
+    private void logicOr() throws ParserException{
         logicAnd();
         logicOr_2();
     }
 
-    private void logicOr_2() throws Exception{
+    private void logicOr_2() throws ParserException{
         if (preanalisis.getTipo() == TipoToken.OR) {
             match(TipoToken.OR);
             logicAnd();
@@ -288,12 +289,12 @@ public class Parser {
         }
     }
 
-    private void logicAnd() throws Exception{
+    private void logicAnd() throws ParserException{
         equality();
         logicAnd_2();
     }   
 
-    private void logicAnd_2() throws Exception{
+    private void logicAnd_2() throws ParserException{
         if (preanalisis.getTipo() == TipoToken.AND) {
             match(TipoToken.AND);
             equality();
@@ -301,12 +302,12 @@ public class Parser {
         }
     }
 
-    private void equality() throws Exception{
+    private void equality() throws ParserException{
         comparison();
         equality_2();
     }
 
-    private void equality_2() throws Exception{
+    private void equality_2() throws ParserException{
         switch (preanalisis.getTipo()) {
             case  BANG_EQUAL:
                 match(TipoToken.BANG_EQUAL);
@@ -324,12 +325,12 @@ public class Parser {
         }
     }
 
-    private void comparison() throws Exception{
+    private void comparison() throws ParserException{
         term();
         comparison_2();
     }
 
-    private void comparison_2() throws Exception{
+    private void comparison_2() throws ParserException{
         switch (preanalisis.getTipo()) {
             case GREATER:
                 match(TipoToken.GREATER);
@@ -357,12 +358,12 @@ public class Parser {
         }
     }   
 
-    private void term() throws Exception{
+    private void term() throws ParserException{
         factor();
         term_2();
     }
 
-    private void term_2() throws Exception{
+    private void term_2() throws ParserException{
         switch (preanalisis.getTipo()) {
             case MINUS:
                 match(TipoToken.MINUS);
@@ -380,12 +381,12 @@ public class Parser {
         }
     }
 
-    private void factor() throws Exception{
+    private void factor() throws ParserException{
         unary();
         factor_2();
     }
 
-    private void factor_2() throws Exception{
+    private void factor_2() throws ParserException{
         switch (preanalisis.getTipo()) {
             case SLASH:
                 match(TipoToken.SLASH);
@@ -403,7 +404,7 @@ public class Parser {
         }
     }
 
-    private void unary() throws Exception{
+    private void unary() throws ParserException{
         switch (preanalisis.getTipo()) {
             case BANG:
                 match(TipoToken.BANG);
@@ -429,12 +430,12 @@ public class Parser {
         }
     }
 
-    private void call() throws Exception{
+    private void call() throws ParserException{
         primary();
         call_2();
     }
 
-    private void call_2() throws Exception{
+    private void call_2() throws ParserException{
         if (preanalisis.getTipo() == TipoToken.LEFT_PAREN) {
             match(TipoToken.LEFT_PAREN);
             arguments_Opc();
@@ -442,7 +443,7 @@ public class Parser {
         }
     }
 
-    private void primary() throws Exception{
+    private void primary() throws ParserException{
         switch (preanalisis.getTipo()) {
             case TRUE:
             case FALSE:
@@ -464,7 +465,7 @@ public class Parser {
     }
 
     //-----------------OTRAS-----------------
-    private void function() throws Exception{
+    private void function() throws ParserException{
         match(TipoToken.IDENTIFIER);
         match(TipoToken.LEFT_PAREN);
         parameters_Opc();
@@ -472,18 +473,18 @@ public class Parser {
         block();
     }
 
-    private void parameters_Opc() throws Exception{
+    private void parameters_Opc() throws ParserException{
         if (preanalisis.getTipo() == TipoToken.IDENTIFIER) {
             parameters();
         }
     }
 
-    private void parameters() throws Exception{
+    private void parameters() throws ParserException{
         match(TipoToken.IDENTIFIER);
         parameters_2();
     }
 
-    private void parameters_2() throws Exception{
+    private void parameters_2() throws ParserException{
         if (preanalisis.getTipo() == TipoToken.COMMA) {
             match(TipoToken.COMMA);
             match(TipoToken.IDENTIFIER);
@@ -491,7 +492,7 @@ public class Parser {
         }
     }
 
-    private void arguments_Opc() throws Exception{
+    private void arguments_Opc() throws ParserException{
         switch (preanalisis.getTipo()) {
             case BANG:
             case MINUS:
@@ -511,7 +512,7 @@ public class Parser {
         }
     }
 
-    private void arguments() throws Exception{
+    private void arguments() throws ParserException{
         if (preanalisis.getTipo() == TipoToken.COMMA) {
             match(TipoToken.COMMA);
             expression();
