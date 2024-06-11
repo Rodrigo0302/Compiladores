@@ -4,7 +4,7 @@
 
 while(init <= lim){
     print -fib;
-    var1 = -123
+    var1 = -123;
 }
 
 print "Fin";
