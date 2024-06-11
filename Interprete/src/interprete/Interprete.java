@@ -17,7 +17,7 @@ public class Interprete {
             // Convención defininida en el archivo "system.h" de UNIX
             System.exit(64);
         } else if(args.length == 1){
-            String texto = "Interprete\\src\\interprete\\pruebas\\"+args[0];
+            String texto = "Interprete\\src\\interprete\\"+args[0];
             ejecutarArchivo(texto);
         } else{
             ejecutarPrompt();
