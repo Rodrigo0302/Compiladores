@@ -9,16 +9,8 @@
             "name": "Interprete",
             "request": "launch",
             "mainClass": "interprete.Interprete",
-            "projectName": "Compiladores_bf2000c0"//,
-            //"args": ["Cadenas.txt"]
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug",
-            "program": "${workspaceFolder}/<executable file>",
-            "args": [],
-            "cwd": "${workspaceFolder}"
+            "projectName": "Compiladores_bf2000c0",
+            "args": ["PruebasParser/Prueba1.txt"]
         }
     ]
 }
